@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased Changes
 
+## 0.0.3 - 2015/07/17
+- Added window check to stop break in Node.
+
 ## 0.0.2 - 2015/07/17
 - Fixed node path.
 

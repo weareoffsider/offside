@@ -4,5 +4,5 @@ var Offside = {
   World: World,
 }
 
-window.Offside = Offside;
+if (typeof window !== "undefined") window.Offside = Offside;
 module.exports = Offside;
