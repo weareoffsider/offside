@@ -1,8 +1,8 @@
 {
   "name": "offside",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple Dependency Injection and Flux Style Tools",
-  "main": "node/index.js",
+  "main": "node/Offside.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/weareoffsider/offside"
