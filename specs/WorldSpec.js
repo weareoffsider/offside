@@ -1,4 +1,4 @@
-import {World} from "../node/World.js";
+import {World} from "../src/World.js";
 var expect = require("chai").expect;
 
 
