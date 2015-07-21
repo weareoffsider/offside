@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased Changes
 
+## 0.0.5 - 2015/07/21
+- Added TemporaryStore, which allows lookouts to know when to trigger
+  unregisterFromDispatcher
+
 ## 0.0.4 - 2015/07/17
 - Added Store, Lookout, Actor and Action with tests.
 

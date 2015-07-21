@@ -1,4 +1,4 @@
-import {Store} from "../src/Store.js";
+import {TemporaryStore, Store} from "../src/Store.js";
 var expect = require("chai").expect;
 
 var getMockDispatcher = function(cb) {
@@ -84,3 +84,11 @@ describe("Store", function() {
     store.unregisterFromDispatcher()
   })
 })
+
+describe("TemporaryStore", function() {
+  it("should instantiate with temporaryStore", function() {
+    var store = new TemporaryStore()
+    expect(store.temporaryStore).to.equal(true)
+  })
+})
+

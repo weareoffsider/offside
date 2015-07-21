@@ -37,3 +37,10 @@ export class Store {
     })
   }
 }
+
+export class TemporaryStore extends Store {
+  constructor(dispatcher) {
+    super(dispatcher)
+    this.temporaryStore = true
+  }
+}

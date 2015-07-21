@@ -14,6 +14,11 @@ var getMockStore = function(cb) {
         cb("unregister", eventName, listener)
       }
     },
+    unregisterFromDispatcher: function() {
+      if (cb) {
+        cb("unregisterFromDispatcher")
+      }
+    },
     emit: function(eventName) {
     },
   }
@@ -72,6 +77,21 @@ describe("Lookout", function() {
       "change": function() {}
     })
     lookout.componentWillMount()
+    lookout.componentWillUnmount()
+  })
+
+  it("should call unregisterFromDispatcher on temporary store when unmounting", function(done) {
+    var lookout = _.create(Lookout)
+    var store = getMockStore(function(method, ...args) {
+      if (method == "unregisterFromDispatcher") {
+        done()
+      }
+    })
+    store.temporaryStore = true
+    lookout.getInitialState()
+    lookout.registerStore(store, {
+      "change": function() {}
+    })
     lookout.componentWillUnmount()
   })
 })

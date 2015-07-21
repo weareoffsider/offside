@@ -25,6 +25,10 @@ module.exports.Lookout = {
           store.unregister(eventName, listeners[eventName])
         }
       }
+
+      if (store.temporaryStore) {
+        store.unregisterFromDispatcher()
+      }
     })
   },
 }
