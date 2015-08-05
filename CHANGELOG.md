@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased Changes
+- Added Circular Dependency Detection
 
 ## 0.0.5 - 2015/07/21
 - Added TemporaryStore, which allows lookouts to know when to trigger

@@ -1,6 +1,15 @@
+function CircularDependencyError(path) {
+  this.name = "CircularDependencyError";
+  this.path = path;
+  this.stack = (new Error()).stack;
+}
+
+CircularDependencyError.prototype = new Error
+
 export class World {
   constructor() {
     this.registry = {};
+    this.resolving = undefined;
   }
 
   register(name, value) {
@@ -10,10 +19,40 @@ export class World {
   }
 
   get(name, ...extraArgs) {
-    if (!this.registry[name]) {
-      throw new Error("World does not contain " + name);
+    try {
+      this.resolving = name;
+      if (!this.registry[name]) {
+        throw new Error("World does not contain " + name);
+      }
+      var value = this.registry[name].get(this, ...extraArgs);
+      this.resolving = undefined;
+      return value;
+    } catch (error) {
+      if (error.name == "CircularDependencyError") {
+        var fullPath = [name].concat(error.path);
+        throw new Error("Circular Dependency: " + fullPath.join(" -> "));
+      } else {
+        throw error;
+      }
     }
-    return this.registry[name].get(this, ...extraArgs);
+  }
+
+  __getNext(name, ...extraArgs) {
+    try {
+      if (name == this.resolving) {
+        throw new CircularDependencyError([])
+      }
+      if (!this.registry[name]) {
+        throw new Error("World does not contain " + name);
+      }
+      return this.registry[name].get(this, ...extraArgs);
+    } catch(error) {
+      if (error.name == "CircularDependencyError") {
+        throw new CircularDependencyError([name].concat(error.path))
+      } else {
+        throw error;
+      }
+    }
   }
 }
 
@@ -52,7 +91,7 @@ class Dependency {
 
     if (this.strategy == "new" || this.strategy == "call") {
       var args = this.dependencies.map((dep) => {
-        return world.get(dep);
+        return world.__getNext(dep);
       });
     }
 

@@ -43,4 +43,16 @@ describe("World", function() {
     expect(singleton.a).to.equal(a);
     expect(singleton).not.to.equal(world.get("TestClass"));
   });
+
+  it("should detect circular dependencies", function() {
+    var world = new World();
+    var a = {"object": "a"};
+    world.register("a", a);
+    world.register("b", "b Value");
+    world.register("TestClass", TestClass).newWith("a", "TestClass2");
+    world.register("TestClass2", TestClass).newWith("TestClass", "b");
+    expect(function() {
+      world.get("TestClass")
+    }).to.throw(/Circular Dependency\: TestClass -> TestClass2 -> TestClass/)
+  });
 });
